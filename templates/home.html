@@ -1,0 +1,107 @@
+{% extends "main.html" %} {% block content %}
+<div id="sidebar">
+  <section class="latest_cat" id={{history[0].user_id}}>
+    <h3><center>History</center></h3><br>
+    <ul>
+      {% for hist in history %}
+      <li>
+        <h5>{{hist.time}}</h5><br>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
+
+<div class="home">
+  <div class="login_add_header">
+
+    <div class="login_link" id={{user}}>
+      <span class="glyphicon glyphicon-user" aria-hidden="true"></span>Logged in as {{user}}
+      <a href="{{url_for('disconnect')}}">
+        <button class="btn btn-default">
+          <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>logout
+        </button>
+      </a>
+
+    </div>
+  </div>
+  <div class='flash'>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li> <strong> {{ message }} </strong> </li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
+  </div>
+  <section class="latest_cat">
+    <a href="https://stackoverflow.com/questions/tagged/java?sort=frequent&pageSize=15" target='_blank'><h3><center>Stack Overflow Java Link</center></h3></a>
+    <br>
+    <div id="vis-container">
+	<div>
+	<h4><strong>Your Activity:
+            <div class="input-color">
+              <input type="text" value="Least Acitvity" />
+              <div class="color-box" style="background-color: #A50026;"></div>
+            </div>
+            <div class="input-color">
+              <input type="text" value="Most Acitvity" />
+              <div class="color-box" style="background-color: #006837;"></div>
+            </div>
+        </strong></h4>
+    	<div id="vis"></div>
+	</div>
+	<div>
+	<h4><strong>Tags</strong></h4>
+	<div id="tags"><p id="tag_data"></p></div>
+	</div>
+	<div id="social"></p>Frequency of tags from all users for the past one week</p></div>
+	<div>
+	<h4><strong>Successful Queries</strong></h4>
+    	<div id="success"></div>
+	</div>
+    </div>
+    <section>
+    <h3><center>Open Social User Modeling: Visulizations and Interactions</center></h3>
+	<h4><strong>Your Activity:</strong></h4>
+	<p>The user activities are represented as a heat map. Any entry into history table for a user is considered as an activity. Each Rectangle represents a day and the color in it represents elative activeness of that day. The most Red block is th least active day and the most green block is most active day. A white block means that there wasn't any activity recorded for that particular day. <br><strong>Interactivity:</strong> Clicking on any colored block on the heat will render a visulaization of time spent by a user on different tags for that single day. Hovering the mouse over a colored block will display number of activites recorded for that day.<br><strong> Analysis:</strong> With this visulization, the user will have an idea of how much he/she is active on each day</p>
+<br>
+	<h4><strong>Tags:</strong></h4>
+	<p>The are two visualizations are presented, one is specific to a user and other is a social visualization. The user specific visualization is rendered  when a colored block in the heat belonging to a date is clicked and gives the user a pie chart of time spent on each tag for that day. The Social Visualization provides the frequency of each tag for the past one week from all users. <br><strong>Interactivity:</strong> Hovering over the user spefic pie chart will display the time spent by the user on that tag for that day and Hovering over Social Pie chart will show Frequency of that tag by all users for past week.<br><strong>Analysis:</strong> By looking at the user specific visualization the user will be able to compare the time spent by him/her, compared to the frequency of tags searched in the past one week by all users. One insight is that, If the user is tudent then looking the tags searched by all users then by looking at frequency of tags presented the user will know what tags to search for in stackoverflow inorder to complete or prepare for class<p>
+	<h4><strong>Successful Queries:</strong></h4>
+	<p>When user queries something and is presented with a list of questions related to the query, the user will click on a question only if she/he finds the question relevant. These are considered successful queries by the serve. And if the user doesn't click on any links which are presented as results to a query then the query is unsuccessful. <br><strong>Interactivity:</strong>When the mouse is over the circle, there is a pop showing the tags which are successful and unsuccesful tags <br><strong>Analysis:</strong>Looking at the success percentage and successful tags and failure tags, the user will get to know what tags are leading to successful queries</p>
+    <h3><center>Which Data is collected and why?</center></h3>
+	<h4><strong>Time Spent :</strong></h4>
+	<p>Time spent by user on a page indicates the relevance/non-relevance of content displayed in the page. In case of StackOverflow, if the user spends a lot of time on a page  from result of a query (like this https://stackoverflow.com/questions/tagged/java?sort=frequent&pageSize=15), this indicates that the questions returned are not what the user has hoped for. On the other hand on pages of a specific question (Like this https://stackoverflow.com/questions/218384/what-is-a-nullpointerexception-and-how-do-i-fix-it ), indicates that a user has found relevant answer which would help him/her. 
+<br>
+Method: Take the time stamp using $(window).focus and calculate the duration and send the log on $(window).blur / $(window).beforeunload</p>
+	<h4><strong>Text Highlight:</strong></h4>
+	<p>Main purpose of highlighting Text on any page is to copy text from the page or to focus on what to read. If a page has many ‘highlighting’ instances, then most probably that information is most information in that page. Moreover by storing the text highlighted, we can determine if it is a piece of code or normal text and if it is a piece of code, it can later be used as a reference for plagiarism check. 
+<br>
+Method: document.addEventListener(“selectionchange”)</p>
+	<h4><strong>Question details, Vote-count, Vote-down, Vote-up:</strong></h4>
+	<p>By looking at the Question details, Vote-count, Vote-down and Vote-up values, We can recognize pattern of the user like if the user  prefers questions with which are posted with earlier dates or questions with more views and number of vote-ups of a question.
+<br>
+Method: Add click listener on each DOM element with class name  vote-down-off, vote-up-off</p>
+	<h4><strong>Posting Answers:</strong></h4>
+	<p>f the profile posts answers to a question, we can find similar questions and suggest questions for the user to answer. This helps the user to understand and research topics more promptly and also helps the other community members with his knowledge.
+<br>
+Method: Add a click listener on “Post Your Answer” button.</p>
+	<h4><strong>Link Clicks:</strong></h4>
+	<p>By logging clicks along with source and destination, we can track the navigation pattern of the user stack overflow. 
+<br>
+Method: Add click event Listeners.</p>
+    </section>
+<br>
+    <h3><center>Collected User Data</center></h3>
+    <ul>
+      {% for hist in collection %}
+      <li>
+        <h5><strong>{{hist.action}}</strong> on <strong>{{hist.url}}</strong> for <strong>{{hist.event}}</strong></h5><br>
+	<hr>
+      </li>
+      {% endfor %}
+    </ul>
+ </section>
+</div>
+{% endblock %}

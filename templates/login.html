@@ -1,0 +1,34 @@
+{% extends "main.html" %} {% block content %}
+<div class="home">
+  <div class='flash'>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li> <strong> {{ message }} </strong> </li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
+  </div>
+  <form action="{{url_for('new_user')}}" method="get">
+    <div class="form-group">
+
+      <button type="submit" class="btn btn-default" id="submit" type="submit">
+        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Create new user</button>
+
+    </div>
+  </form>
+  <form action="{{url_for('show_login')}}" method="post">
+    <div class="form-group">
+
+      <label for="name">Name:</label>
+      <input type="text" maxlength="250" class="form-control" name="name">
+
+      <label for="password">Password:</label>
+      <input type="text" maxlength="64" class="form-control" name="password">
+      <button type="submit" class="btn btn-default" id="submit" type="submit">
+        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>Log in</button>
+    </div>
+  </form>
+
+</div>
+{% endblock %}
